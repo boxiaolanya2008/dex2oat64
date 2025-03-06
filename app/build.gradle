@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.vivo.applyindepthoptimization"
-        minSdk 24
+        minSdk 26
         targetSdk 35
         versionCode 10025
         versionName "2.5-Beta"
