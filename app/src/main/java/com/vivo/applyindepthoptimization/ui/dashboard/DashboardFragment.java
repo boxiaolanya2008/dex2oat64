@@ -22,7 +22,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.vivo.applyindepthoptimization.R;
 import com.vivo.applyindepthoptimization.databinding.FragmentDashboardBinding;
-import com.vivo.applyindepthoptimization.utils.ShizukuExecutor;
+import com.vivo.applyindepthoptimization.ui.utils.ShizukuExecutor;
 
 import java.io.IOException;
 import java.util.ArrayList;
