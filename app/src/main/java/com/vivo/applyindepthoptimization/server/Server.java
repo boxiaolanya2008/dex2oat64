@@ -1,10 +1,20 @@
 package com.vivo.applyindepthoptimization.server;
 
-import java.io.File;
+import android.os.Build;
+import android.system.Os;
 
+import com.vivo.applyindepthoptimization.BuildConfig;
+
+import java.io.File;
+import java.util.Arrays;
+
+import yangFenTuoZi.server.Logger;
 import yangFenTuoZi.server.ServerTemplate;
 
 public class Server extends ServerTemplate {
+
+    private boolean isCrashed = false;
+    private Logger mLogger;
 
     /**
      * 构造函数，初始化服务
@@ -29,24 +39,49 @@ public class Server extends ServerTemplate {
     // 创建时
     @Override
     public void onCreate() {
-        super.onCreate();
     }
 
     // 启动时
     @Override
     public void onStart() {
-        super.onStart();
+        mLogger = getLogger();
+        mLogger.i("启动");
     }
 
     // 停止时
     @Override
     public void onStop() {
-        super.onStop();
+        mLogger.i("停止");
+        mLogger.close();
     }
 
     // 崩溃时
     @Override
     public void onCrash(Thread t, Throwable e) {
-        super.onCrash(t, e);
+        if (isCrashed) System.exit(255);
+        isCrashed = true;
+        new Thread(() -> {
+            if (mLogger != null)
+                mLogger.e("""
+                        ** 程序崩溃! **
+                        线程: %s
+                        用户ID: %d, 进程ID: %d
+                        
+                        App版本: %s (%d)
+                        机型: %s
+                        厂商: %s
+                        CPU架构: %s
+                        SDK版本: %d
+                        
+                        %s
+                        """, t.getName(),
+                        Os.getuid(), Os.getpid(),
+                        BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE,
+                        Build.MANUFACTURER, Build.MODEL,
+                        Arrays.toString(Build.SUPPORTED_ABIS),
+                        Build.VERSION.SDK_INT,
+                        Logger.getStackTraceString(e));
+            finish(255);
+        }).start();
     }
 }
