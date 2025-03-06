@@ -6,7 +6,9 @@ interface IService {
     void exit() = 1;
 
     // 查看uid
-    int getUid();
+    int getUid() = 2;
     // 执行命令
-    String runCommand(String command);
+    String runCommand(String command) = 3;
+    // 查看Server实现
+    boolean isShizuku() = 4;
 }

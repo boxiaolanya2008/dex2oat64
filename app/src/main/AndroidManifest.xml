@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     
-    <application 
+    <application
+        android:name=".App"
         android:allowBackup="true" 
         android:icon="@mipmap/ic_launcher" 
         android:roundIcon="@mipmap/ic_launcher" 
@@ -21,6 +22,20 @@
                     android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".server.Receiver"
+            android:directBootAware="true"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="dex2oat64_opt.intent.action.SERVER_RUNNING" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="dex2oat64_opt.intent.action.SERVER_STOPPED" />
+            </intent-filter>
+        </receiver>
 
         <!-- Shizuku -->
         <provider
