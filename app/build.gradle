@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.vivo.applyindepthoptimization'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.vivo.applyindepthoptimization"
+        minSdk 24
+        targetSdk 35
+        versionCode 10025
+        versionName "2.5-Beta"
+
+        ndk {
+            abiFilters 'arm64-v8a', 'armeabi-v7a'
+        }
+
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'arm64-v8a', 'armeabi-v7a'
+            universalApk true
+        }
+    }
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = false
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+    
+    dependenciesInfo {
+        includeInApk true
+        includeInBundle true
+    }
+    buildToolsVersion '35.0.0'
+}
+
+dependencies {
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.7.0"
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.navigation:navigation-fragment:2.6.0"
+    implementation "com.google.android.material:material:1.10.0"
+    implementation "androidx.navigation:navigation-ui:2.6.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.7.0"
+    implementation 'dev.rikka.shizuku:api:13.1.0'
+    implementation "dev.rikka.shizuku:provider:13.1.0"
+}
