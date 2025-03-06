@@ -1,4 +1,4 @@
-package com.vivo.applyindepthoptimization.utils;
+package com.vivo.applyindepthoptimization.ui.utils;
 
 import rikka.shizuku.Shizuku;
 

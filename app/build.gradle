@@ -52,6 +52,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        aidl true
     }
     
     dependenciesInfo {
@@ -69,6 +70,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:2.6.0"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation "androidx.lifecycle:lifecycle-livedata:2.7.0"
-    implementation 'dev.rikka.shizuku:api:13.1.0'
+    implementation "dev.rikka.shizuku:api:13.1.0"
     implementation "dev.rikka.shizuku:provider:13.1.0"
+    implementation "com.github.yangFenTuoZi:ServerTemplate:1.0.0-alpha.2"
 }

@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.vivo.applyindepthoptimization.databinding.FragmentHomeBinding;
-import com.vivo.applyindepthoptimization.utils.ShizukuExecutor;
+import com.vivo.applyindepthoptimization.ui.utils.ShizukuExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
