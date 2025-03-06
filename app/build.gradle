@@ -75,3 +75,7 @@ dependencies {
     implementation "dev.rikka.shizuku:provider:13.1.0"
     implementation "com.github.yangFenTuoZi:ServerTemplate:1.0.0-alpha.2"
 }
+
+configurations.all {
+    exclude group: "androidx.annotation", module: "annotation-jvm"
+}
