@@ -13,10 +13,10 @@ public class Receiver extends BroadcastReceiver {
         if (Server.ACTION_SERVER_RUNNING.equals(intent.getAction())) {
             BinderContainer binderContainer = intent.getParcelableExtra("binder");
             if (binderContainer != null) {
-                App.onServerReceive(binderContainer.binder);
+                App.onReceive(binderContainer.binder);
             }
         } else if (Server.ACTION_SERVER_STOPPED.equals(intent.getAction())) {
-            App.onServerReceive(null);
+            App.onReceive(null);
         }
     }
 }

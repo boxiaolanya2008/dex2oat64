@@ -5,11 +5,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.Manifest;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -34,9 +33,17 @@ public class MainActivity extends AppCompatActivity {
     private static final int QUERY_ALL_PACKAGES_PERMISSION_REQUEST_CODE = 101;
     private ActivityMainBinding binding;
     private final ExecutorService executorService = Executors.newCachedThreadPool();
-    private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private boolean isDialogShowing = false;
-    private Shizuku.OnRequestPermissionResultListener shizukuPermissionListener;
+    private final Shizuku.OnRequestPermissionResultListener shizukuPermissionListener = (requestCode, grantResult) -> {
+        Log.d(TAG, "Shizuku 权限请求结果: requestCode=" + requestCode + ", grantResult=" + grantResult);
+        if (requestCode == SHIZUKU_PERMISSION_REQUEST_CODE) {
+            if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                onShizukuPermissionGranted();
+            } else {
+                onShizukuPermissionDenied();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +64,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "依赖检查失败，停止后续操作");
                 return;
             }
-            mainHandler.post(() -> {
-                Log.d(TAG, "开始检查和请求 Shizuku 权限");
+            runOnUiThread(() -> {
+                Log.d(TAG, "注册 Shizuku 权限监听");
+                Shizuku.addRequestPermissionResultListener(shizukuPermissionListener);
                 checkAndRequestShizukuPermission();
             });
         });
@@ -69,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         String manufacturer = Build.MANUFACTURER.toLowerCase(Locale.ROOT);
         boolean isSupported = manufacturer.contains("vivo") || manufacturer.contains("oppo");
         Log.d(TAG, "设备品牌检查: " + manufacturer + ", 是否支持: " + isSupported);
+        isSupported = true;
         return isSupported;
     }
 
@@ -88,12 +97,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (shizukuPermissionListener != null) {
-            Shizuku.removeRequestPermissionResultListener(shizukuPermissionListener);
-            shizukuPermissionListener = null;
-        }
+        Shizuku.removeRequestPermissionResultListener(shizukuPermissionListener);
         executorService.shutdownNow();
-        mainHandler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
 
@@ -108,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean checkDependencies() {
         if (!Shizuku.pingBinder()) {
             Log.w(TAG, "Shizuku 服务未启动或不可用");
-            mainHandler.post(() -> showAlertDialog(
+            runOnUiThread(() -> showAlertDialog(
                     "Shizuku 不可用",
                     "Shizuku 服务未启动或设备不支持，请确保已安装并启动 Shizuku 服务后重试。",
                     "了解更多",
@@ -135,27 +140,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestShizukuPermission() {
-        if (shizukuPermissionListener != null) {
-            Shizuku.removeRequestPermissionResultListener(shizukuPermissionListener);
-            shizukuPermissionListener = null;
-        }
-
-        shizukuPermissionListener = (requestCode, grantResult) -> {
-            Log.d(TAG, "Shizuku 权限请求结果: requestCode=" + requestCode + ", grantResult=" + grantResult);
-            if (requestCode == SHIZUKU_PERMISSION_REQUEST_CODE) {
-                Shizuku.removeRequestPermissionResultListener(shizukuPermissionListener);
-                shizukuPermissionListener = null;
-                if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                    onShizukuPermissionGranted();
-                } else {
-                    onShizukuPermissionDenied();
-                }
-            }
-        };
-
-        Shizuku.addRequestPermissionResultListener(shizukuPermissionListener);
-        Log.d(TAG, "Shizuku 监听器已注册");
-
         if (!isDialogShowing) {
             showAlertDialog(
                     "需要 Shizuku 权限",
@@ -173,15 +157,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkAndRequestQueryAllPackagesPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.QUERY_ALL_PACKAGES) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.QUERY_ALL_PACKAGES}, QUERY_ALL_PACKAGES_PERMISSION_REQUEST_CODE);
-        } else {
-            onQueryAllPackagesPermissionGranted();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.QUERY_ALL_PACKAGES) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.QUERY_ALL_PACKAGES}, QUERY_ALL_PACKAGES_PERMISSION_REQUEST_CODE);
+
+            } else {
+                onQueryAllPackagesPermissionGranted();
+            }
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == QUERY_ALL_PACKAGES_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -209,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
         isDialogShowing = true;
 
-        mainHandler.post(() -> {
+        runOnUiThread(() -> {
             MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this)
                     .setTitle(title)
                     .setMessage(message)

@@ -21,11 +21,12 @@ import com.vivo.applyindepthoptimization.ui.utils.ShizukuExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private AlertDialog currentAlertDialog;  // 用于跟踪当前对话框
 
     private long startTime;
@@ -212,24 +213,16 @@ public class HomeFragment extends Fragment {
     }
 
     private String buildCommandForMode(String mode, String packageName) {
-        switch (mode) {
-            case "verify":
-                return "cmd package compile -m verify -f " + packageName;
-            case "quicken":
-                return "cmd package compile -m quicken -f " + packageName;
-            case "speed-profile":
-                return "cmd package compile -m speed-profile -f " + packageName;
-            case "space-profile":
-                return "cmd package compile -m space-profile -f " + packageName;
-            case "balanced":
-                return "cmd package compile -m balanced -f " + packageName;
-            case "speed":
-                return "cmd package compile -m speed -f " + packageName;
-            case "space":
-                return "cmd package compile -m space -f " + packageName;
-            default:
-                return "";
-        }
+        return switch (mode) {
+            case "verify" -> "cmd package compile -m verify -f " + packageName;
+            case "quicken" -> "cmd package compile -m quicken -f " + packageName;
+            case "speed-profile" -> "cmd package compile -m speed-profile -f " + packageName;
+            case "space-profile" -> "cmd package compile -m space-profile -f " + packageName;
+            case "balanced" -> "cmd package compile -m balanced -f " + packageName;
+            case "speed" -> "cmd package compile -m speed -f " + packageName;
+            case "space" -> "cmd package compile -m space -f " + packageName;
+            default -> "";
+        };
     }
 
     private String formatTime(long millis) {

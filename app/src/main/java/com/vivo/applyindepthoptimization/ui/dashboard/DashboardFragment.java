@@ -1,5 +1,6 @@
 package com.vivo.applyindepthoptimization.ui.dashboard;
 
+import android.annotation.SuppressLint;
 import  android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -19,16 +20,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.vivo.applyindepthoptimization.R;
 import com.vivo.applyindepthoptimization.databinding.FragmentDashboardBinding;
 import com.vivo.applyindepthoptimization.ui.utils.ShizukuExecutor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressLint("SetTextI18n")
 public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
@@ -39,8 +39,6 @@ public class DashboardFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -174,17 +172,17 @@ public class DashboardFragment extends Fragment {
 
     // 执行普通模式的编译命令
     private void executeCommand(String packageName) {
-        String command = "";
-        switch (selectedMode) {
-            case "mode1": command = "cmd package compile -m verify -f " + packageName; break;
-            case "mode2": command = "cmd package compile -m quicken -f " + packageName; break;
-            case "mode3": command = "cmd package compile -m speed-profile -f " + packageName; break;
-            case "mode4": command = "cmd package compile -m space-profile -f " + packageName; break;
-            case "mode5": command = "cmd package compile -m everything -f " + packageName; break;
-            case "mode6": command = "cmd package compile -m speed -f " + packageName; break;
-            case "mode7": command = "cmd package compile -m space -f " + packageName; break;
-            case "mode8": command = "cmd package compile -m balanced -f " + packageName; break;
-        }
+        String command = switch (selectedMode) {
+            case "mode1" -> "cmd package compile -m verify -f " + packageName;
+            case "mode2" -> "cmd package compile -m quicken -f " + packageName;
+            case "mode3" -> "cmd package compile -m speed-profile -f " + packageName;
+            case "mode4" -> "cmd package compile -m space-profile -f " + packageName;
+            case "mode5" -> "cmd package compile -m everything -f " + packageName;
+            case "mode6" -> "cmd package compile -m speed -f " + packageName;
+            case "mode7" -> "cmd package compile -m space -f " + packageName;
+            case "mode8" -> "cmd package compile -m balanced -f " + packageName;
+            default -> "";
+        };
 
         try {
             String output = ShizukuExecutor.runCommand(command);
@@ -224,7 +222,7 @@ public class DashboardFragment extends Fragment {
 
         if (success) {
             binding.tvSelectedApp.setText("Monster+模式已执行");
-            showCompletionDialog(outputBuilder.length() == 0 ? "Monster模式命令执行成功，无输出" : outputBuilder.toString());
+            showCompletionDialog(outputBuilder.toString().isEmpty() ? "Monster模式命令执行成功，无输出" : outputBuilder.toString());
         } else {
             showErrorDialog(outputBuilder.toString());
         }
