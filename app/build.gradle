@@ -64,16 +64,25 @@ android {
 }
 
 dependencies {
+    // MD3
+    implementation "com.google.android.material:material:1.12.0"
+
+    // AndroidX
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.8.7"
     implementation "androidx.appcompat:appcompat:1.7.0"
     implementation "androidx.navigation:navigation-fragment:2.8.8"
-    implementation "com.google.android.material:material:1.12.0"
     implementation "androidx.navigation:navigation-ui:2.8.8"
     implementation "androidx.constraintlayout:constraintlayout:2.2.1"
     implementation "androidx.lifecycle:lifecycle-livedata:2.8.7"
+
+    // Shizuku-API
     implementation "dev.rikka.shizuku:api:13.1.0"
     implementation "dev.rikka.shizuku:provider:13.1.0"
+
+    // 服务模板
     implementation "com.github.yangFenTuoZi:ServerTemplate:1.0.0-alpha.2"
+    // 隐藏API调用
+    implementation "dev.rikka.hidden:stub:4.3.3"
 }
 
 configurations.all {

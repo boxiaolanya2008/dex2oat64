@@ -1,7 +1,7 @@
 package com.vivo.applyindepthoptimization.ui.dashboard;
 
 import android.annotation.SuppressLint;
-import  android.content.pm.ApplicationInfo;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.vivo.applyindepthoptimization.R;
@@ -60,23 +59,20 @@ public class DashboardFragment extends Fragment {
         });
 
         // 设置根视图的摇杆事件监听器
-        root.setOnGenericMotionListener(new View.OnGenericMotionListener() {
-            @Override
-            public boolean onGenericMotion(View v, MotionEvent event) {
-                if (event.getSource() == InputDevice.SOURCE_JOYSTICK &&
-                        event.getAction() == MotionEvent.ACTION_MOVE) {
-                    float xAxis = event.getAxisValue(MotionEvent.AXIS_X);
-                    // 摇杆向右推到最大（值接近1.0）时触发Monster模式
-                    if (xAxis > 0.9f) {
-                        isMonsterMode = true;
-                        binding.textMonsterStatus.setText("Monster模式已激活 (摇杆触发)");
-                        binding.textClickHere.setText("点击选择模式"); // 重置普通模式状态
-                        executeMonsterCommand(); // 直接执行Monster模式的ADB命令
-                        return true;
-                    }
+        root.setOnGenericMotionListener((v, event) -> {
+            if (event.getSource() == InputDevice.SOURCE_JOYSTICK &&
+                    event.getAction() == MotionEvent.ACTION_MOVE) {
+                float xAxis = event.getAxisValue(MotionEvent.AXIS_X);
+                // 摇杆向右推到最大（值接近1.0）时触发Monster模式
+                if (xAxis > 0.9f) {
+                    isMonsterMode = true;
+                    binding.textMonsterStatus.setText("Monster模式已激活 (摇杆触发)");
+                    binding.textClickHere.setText("点击选择模式"); // 重置普通模式状态
+                    executeMonsterCommand(); // 直接执行Monster模式的ADB命令
+                    return true;
                 }
-                return false; // 未处理时返回false
             }
+            return false; // 未处理时返回false
         });
 
         // 使根视图可聚焦以接收输入事件

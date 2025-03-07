@@ -1,5 +1,6 @@
 package com.vivo.applyindepthoptimization.ui.dialog;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,7 +73,7 @@ public class StartServerDialogBuilder extends BaseDialogBuilder {
             try {
                 Process p = getProcess();
                 OutputStream out = p.getOutputStream();
-                out.write(("sh \"" + mContext.getExternalFilesDir("") + "/server_starter.sh\" 2>&1\n").getBytes());
+                out.write((getStartCommand(mContext) + " 2>&1\n").getBytes());
                 out.flush();
                 out.close();
                 try {
@@ -104,6 +105,10 @@ public class StartServerDialogBuilder extends BaseDialogBuilder {
         });
         h1.start();
         return alertDialog;
+    }
+
+    public static String getStartCommand(Context context) {
+        return "sh \"" + context.getExternalFilesDir("") + "/server_starter.sh\"";
     }
 
     private Process getProcess() throws IOException {

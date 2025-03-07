@@ -1,6 +1,9 @@
 package com.vivo.applyindepthoptimization;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -26,7 +29,9 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.vivo.applyindepthoptimization.databinding.ActivityMainBinding;
+import com.vivo.applyindepthoptimization.databinding.DialogChooseStartWayBinding;
 import com.vivo.applyindepthoptimization.ui.dialog.BaseDialogBuilder;
+import com.vivo.applyindepthoptimization.ui.dialog.StartServerDialogBuilder;
 
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -76,7 +81,47 @@ public class MainActivity extends AppCompatActivity {
 
         binding.toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.home_start) {
-
+                try {
+                    DialogChooseStartWayBinding dialogBinding = DialogChooseStartWayBinding.inflate(getLayoutInflater());
+                    new BaseDialogBuilder(this)
+                            .setTitle("选择服务启动方式")
+                            .setView(dialogBinding.getRoot())
+                            .setPositiveButton("启动", (d, w) -> {
+                                isDialogShowing = false;
+                                try {
+                                    int id = dialogBinding.getRoot().getCheckedRadioButtonId();
+                                    if (id == R.id.root) {
+                                        new StartServerDialogBuilder(this, false).show();
+                                    } else if (id == R.id.shizuku) {
+                                        new StartServerDialogBuilder(this, true).show();
+                                    } else if (id == R.id.adb) {
+                                        String command = "adb shell " + StartServerDialogBuilder.getStartCommand(this);
+                                        new BaseDialogBuilder(this)
+                                                .setTitle("ADB 启动命令")
+                                                .setMessage(command).setPositiveButton("复制", (d1, w1) -> {
+                                                    ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                                    ClipData mClipData = ClipData.newPlainText("command", command);
+                                                    clipboardManager.setPrimaryClip(mClipData);
+                                                })
+                                                .show();
+                                    } else if (id == R.id.shell) {
+                                        String command = StartServerDialogBuilder.getStartCommand(this);
+                                        new BaseDialogBuilder(this)
+                                                .setTitle("Shell 启动命令")
+                                                .setMessage(command).setPositiveButton("复制", (d1, w1) -> {
+                                                    ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                                    ClipData mClipData = ClipData.newPlainText("command", command);
+                                                    clipboardManager.setPrimaryClip(mClipData);
+                                                })
+                                                .show();
+                                    }
+                                } catch (BaseDialogBuilder.DialogException ignored) {
+                                }
+                            })
+                            .show();
+                } catch (BaseDialogBuilder.DialogException e) {
+                    App.exToDialog(this, e);
+                }
             } else if (item.getItemId() == R.id.home_stop) {
                 if (App.iService != null) {
                     try {
