@@ -7,7 +7,9 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.SystemBarStyle;
@@ -24,6 +26,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.vivo.applyindepthoptimization.databinding.ActivityMainBinding;
+import com.vivo.applyindepthoptimization.ui.dialog.BaseDialogBuilder;
 
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int QUERY_ALL_PACKAGES_PERMISSION_REQUEST_CODE = 101;
     private ActivityMainBinding binding;
     private final ExecutorService executorService = Executors.newCachedThreadPool();
-    private boolean isDialogShowing = false;
+    public boolean isDialogShowing = false;
     private final Shizuku.OnRequestPermissionResultListener shizukuPermissionListener = (requestCode, grantResult) -> {
         Log.d(TAG, "Shizuku 权限请求结果: requestCode=" + requestCode + ", grantResult=" + grantResult);
         if (requestCode == SHIZUKU_PERMISSION_REQUEST_CODE) {
@@ -72,6 +75,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         binding.toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.home_start) {
+
+            } else if (item.getItemId() == R.id.home_stop) {
+                if (App.iService != null) {
+                    try {
+                        App.iService.exit();
+                    } catch (RemoteException e) {
+                        App.exToDialog(this, e);
+                    }
+                } else {
+                    Toast.makeText(this, "服务未启动", Toast.LENGTH_SHORT).show();
+                }
+            }
             return false;
         });
 
@@ -100,17 +116,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showBrandCheckDialog() {
-        isDialogShowing = true;
-        new MaterialAlertDialogBuilder(this)
-                .setTitle("设备不兼容")
-                .setMessage("本应用仅支持vivo和OPPO品牌设备")
-                .setCancelable(false)
-                .setPositiveButton("退出", (dialog, which) -> finish())
-                .setOnDismissListener(dialog -> {
-                    isDialogShowing = false;
-                    finish();
-                })
-                .show();
+        try {
+            new BaseDialogBuilder(this)
+                    .setTitle("设备不兼容")
+                    .setMessage("本应用仅支持vivo和OPPO品牌设备")
+                    .setCancelable(false)
+                    .setPositiveButton("退出", (dialog, which) -> finish())
+                    .setOnDismissListener(dialog -> finish())
+                    .show();
+        } catch (BaseDialogBuilder.DialogException ignored) {
+        }
     }
 
     @Override
@@ -159,20 +174,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestShizukuPermission() {
-        if (!isDialogShowing) {
-            showAlertDialog(
-                    "需要 Shizuku 权限",
-                    "应用需要 Shizuku 权限以执行高级操作，请授权。",
-                    "授权",
-                    () -> {
-                        Log.d(TAG, "用户点击授权，开始请求 Shizuku 权限");
-                        Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE);
-                    },
-                    false
-            );
-        } else {
-            Log.w(TAG, "已有对话框显示，跳过 Shizuku 授权弹窗");
-        }
+        showAlertDialog(
+                "需要 Shizuku 权限",
+                "应用需要 Shizuku 权限以执行高级操作，请授权。",
+                "授权",
+                () -> {
+                    Log.d(TAG, "用户点击授权，开始请求 Shizuku 权限");
+                    Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE);
+                },
+                false
+        );
     }
 
     private void checkAndRequestQueryAllPackagesPermission() {
@@ -208,32 +219,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showAlertDialog(String title, String message, String positive, Runnable onPositive, boolean finishOnCancel) {
-        if (isDialogShowing) {
-            Log.w(TAG, "已有对话框显示，跳过新对话框: " + title);
-            return;
-        }
-
-        isDialogShowing = true;
-
         runOnUiThread(() -> {
-            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this)
-                    .setTitle(title)
-                    .setMessage(message)
-                    .setPositiveButton(positive, (dialog, which) -> {
-                        if (onPositive != null) onPositive.run();
-                        isDialogShowing = false;
-                    });
+            try {
+                MaterialAlertDialogBuilder builder = new BaseDialogBuilder(this)
+                        .setTitle(title)
+                        .setMessage(message)
+                        .setPositiveButton(positive, (dialog, which) -> {
+                            if (onPositive != null) onPositive.run();
+                        });
 
-            if (finishOnCancel) {
-                builder.setNegativeButton("退出", (dialog, which) -> {
-                    finish();
-                    isDialogShowing = false;
-                });
+                if (finishOnCancel) {
+                    builder.setNegativeButton("退出", (dialog, which) -> finish());
+                }
+
+                builder.show();
+                Log.d(TAG, "显示对话框: " + title);
+            } catch (BaseDialogBuilder.DialogException ignored) {
             }
-
-            builder.setOnDismissListener(dialog -> isDialogShowing = false);
-            builder.show();
-            Log.d(TAG, "显示对话框: " + title);
         });
     }
 

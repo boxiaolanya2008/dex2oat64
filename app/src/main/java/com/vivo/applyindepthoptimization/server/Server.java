@@ -104,6 +104,7 @@ public class Server extends ServerTemplate {
     }
 
     public void sendBinder() {
+        mLogger.i("发送Binder给App");
         Intent intent = new Intent(Server.ACTION_SERVER_RUNNING)
                 .setPackage(BuildConfig.APPLICATION_ID)
                 .addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
@@ -114,6 +115,11 @@ public class Server extends ServerTemplate {
 
     public IBinder getBinder() {
         return new IService.Stub() {
+
+            @Override
+            public void exit() {
+                finish(0);
+            }
 
             @Override
             public int getUid() {
