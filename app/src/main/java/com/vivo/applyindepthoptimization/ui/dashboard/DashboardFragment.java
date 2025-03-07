@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.view.InputDevice;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -189,7 +190,7 @@ public class DashboardFragment extends Fragment {
             String output = ShizukuExecutor.runCommand(command);
             binding.tvSelectedApp.setText("已编译应用: " + selectedApp.name);
             showCompletionDialog(output);
-        } catch (IOException | InterruptedException e) {
+        } catch (RemoteException e) {
             e.printStackTrace();
             showErrorDialog(e.getMessage());
         }
@@ -214,7 +215,7 @@ public class DashboardFragment extends Fragment {
                 if (!output.isEmpty()) {
                     outputBuilder.append(command).append(" 输出: ").append(output).append("\n");
                 }
-            } catch (IOException | InterruptedException e) {
+            } catch (RemoteException e) {
                 e.printStackTrace();
                 success = false;
                 outputBuilder.append(command).append(" 失败: ").append(e.getMessage()).append("\n");

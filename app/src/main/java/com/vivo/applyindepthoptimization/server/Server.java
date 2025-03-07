@@ -23,12 +23,6 @@ public class Server extends ServerTemplate {
     private Logger mLogger;
     private Thread appListener;
 
-    /**
-     * 构造函数，初始化服务
-     * 包括设置主线程、权限检查、日志记录器初始化、异常处理等
-     *
-     * @param args
-     */
     public Server(Args args) {
         super(args);
     }
