@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home_start"
+        android:title="@string/start_server" />
+
+    <item
+        android:id="@+id/home_stop"
+        android:title="@string/stop_server" />
+</menu>

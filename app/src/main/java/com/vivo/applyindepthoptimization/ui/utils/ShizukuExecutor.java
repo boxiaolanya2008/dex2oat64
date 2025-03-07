@@ -4,13 +4,6 @@ import android.os.RemoteException;
 
 import com.vivo.applyindepthoptimization.App;
 
-import rikka.shizuku.Shizuku;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-
 public class ShizukuExecutor {
 
 /*

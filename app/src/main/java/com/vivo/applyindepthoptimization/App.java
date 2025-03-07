@@ -2,7 +2,6 @@ package com.vivo.applyindepthoptimization;
 
 import android.app.Application;
 import android.os.IBinder;
-import android.os.RemoteException;
 
 import java.util.LinkedList;
 
