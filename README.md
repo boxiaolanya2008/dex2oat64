@@ -101,7 +101,7 @@
 <div align="right">
 <h3>开发团队</h3>
 <p><strong>Viqitos</strong> | <strong>yangFenTuoZi</strong> | <strong>莹莹</strong></p>
-<p><a href="https://www.youhualan.xyz/index.html">官方网站</a> - 专业技术支持</p>
+<p><a href="http://www.youhualan.xyz/index.html">官方网站</a> - 专业技术支持</p>
 </div>
 
 <div align="center">
