@@ -1,3 +1,5 @@
+# dex2oat_opt
+
 ## 应用深度优化
 
 > Dex2oat64 是 Android 系统性能优化中的一项关键技术，其核心原理和扩展信息如下：
@@ -37,7 +39,7 @@
 
 2. **兼容性问题**
    - **部分动态加载代码的 App 可能崩溃** (如热修复框架)
-   - **厂商定制系统 (如 MIUI/EMUI) 可能限制编译策略**
+   - **厂商定制系统 (如 MIUI/EMUI) 可能限制编译策略)
 
 3. **副作用**
    - **应用安装时间延长** (Pixel 设备全量编译耗时增加 30%+)
@@ -46,7 +48,7 @@
 
 ---
 
-### 以下是开发者➕测试者列表
+### 开发者与测试者列表
 
 1. **Viqitos yangFenTuoZi 莹莹**
-2. **这是我们的官网** [Viqitos](https://www.youhualan.xyz/index.html)
+2. **官网**: [Viqitos](https://www.youhualan.xyz/index.html)
