@@ -45,3 +45,5 @@
    - **某些过度激进的编译策略可能影响省电模式的正常工作**
 
 ---
+
+这是我们的官网 [Viqitos](https://www.youhualan.xyz/index.html)
