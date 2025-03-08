@@ -48,7 +48,5 @@
 
 ### 以下是开发者➕测试者列表
 
-- Viqitos
-- yangFenTuoZi
-- 莹莹
-- 这是我们的官网 [Viqitos](https://www.youhualan.xyz/index.html)
+1. **Viqitos yangFenTuoZi 莹莹**
+> 这是我们的官网 [Viqitos](https://www.youhualan.xyz/index.html)
