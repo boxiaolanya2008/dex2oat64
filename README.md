@@ -48,9 +48,9 @@
 
 ### 这是我们的官网 [Viqitos](https://www.youhualan.xyz/index.html)
 
-### 开发者：
-- viqitos
+- 开发者：
+- Viqitos
 - 佬开朗
 
-### 测试者
+- 测试者
 - 莹莹
