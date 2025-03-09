@@ -40,7 +40,7 @@
 | **JIT**  |   运行时按需编译   | 安装快、占用空间小 | 首次运行体验差 |
 | **混合模式** | 结合AOT与JIT优势 |  平衡存储与性能  | 实现复杂度高  |
 
-<div style="text-align: center;">
+<div align="center">
 <p><em>Android 7.0+ 采用混合模式，通过 Profile-Guided Optimization (PGO) 优化热点代码</em></p>
 </div>
 
@@ -98,12 +98,12 @@
 
 ---
 
-<div style="text-align: right;">
+<div align="right">
 <h3>开发团队</h3>
 <p><strong>Viqitos</strong> | <strong>yangFenTuoZi</strong> | <strong>莹莹</strong></p>
 <p><a href="http://www.youhualan.xyz/index.html">官方网站</a> - 专业技术支持</p>
 </div>
 
-<div style="text-align: center;">
+<div align="center">
 <p>© 2025 Dex2oat优化技术团队 | 版本 2.6.0</p>
 </div>
