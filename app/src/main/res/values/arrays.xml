@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="theme_texts" translatable="false">
+        <item>@string/dark_theme_off</item>
+        <item>@string/dark_theme_on</item>
+        <item>@string/dark_theme_follow_system</item>
+    </string-array>
+
+    <string-array name="theme_values" translatable="false">
+        <item>MODE_NIGHT_NO</item>
+        <item>MODE_NIGHT_YES</item>
+        <item>MODE_NIGHT_FOLLOW_SYSTEM</item>
+    </string-array>
+
+    <string-array name="compile_ways" translatable="false">
+        <item>verify</item>
+        <item>quicken</item>
+        <item>speed-profile</item>
+        <item>space-profile</item>
+        <item>everything</item>
+        <item>speed</item>
+        <item>space</item>
+        <item>balanced</item>
+    </string-array>
+</resources>
