@@ -13,24 +13,11 @@
 
 ### Dex 转换机制
 
-<table>
-  <tr>
-    <th>组件</th>
-    <th>功能描述</th>
-  </tr>
-  <tr>
-    <td><strong>Dex 文件</strong></td>
-    <td>Android 应用的 Java/Kotlin 代码编译后生成的字节码文件（.dex 格式）</td>
-  </tr>
-  <tr>
-    <td><strong>Dex2oat</strong></td>
-    <td>Android Runtime (ART) 的核心编译工具，将 Dex 字节码转换为本地机器码（ELF 格式），实现 AOT 编译</td>
-  </tr>
-  <tr>
-    <td><strong>Dex2oat64</strong></td>
-    <td>针对 64 位设备优化的版本，支持 ARM64、x86_64 等主流架构，大幅提升编译效率</td>
-  </tr>
-</table>
+|      组件       |                               功能描述                                |
+|:-------------:|:-----------------------------------------------------------------:|
+|  **Dex 文件**   |          Android 应用的 Java/Kotlin 代码编译后生成的字节码文件（.dex 格式）           |
+|  **Dex2oat**  | Android Runtime (ART) 的核心编译工具，将 Dex 字节码转换为本地机器码（ELF 格式），实现 AOT 编译 |
+| **Dex2oat64** |           针对 64 位设备优化的版本，支持 ARM64、x86_64 等主流架构，大幅提升编译效率           |
 
 ### 编译策略比较
 
