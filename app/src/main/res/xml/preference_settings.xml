@@ -14,8 +14,8 @@
         <Preference
             android:defaultValue="false"
             android:key="choose_apps"
-            android:summary="选择需要编译的App并执行dex2oat编译"
-            android:title="选择App" />
+            android:summary="选择需要编译的 App 并执行 dex2oat 编译"
+            android:title="选择 App" />
 
     </PreferenceCategory>
 
@@ -24,31 +24,35 @@
         <rikka.material.preference.MaterialSwitchPreference
             android:defaultValue="false"
             android:key="monster"
-            android:summary="开启或关闭Monster+模式"
-            android:title="Monster+" />
+            android:summary="开启或关闭 Monster+ 模式"
+            android:title="Monster+"
+            android:icon="@drawable/ic_monster" />
 
-        <!--TODO 添加描述-->
         <rikka.material.preference.MaterialSwitchPreference
             android:defaultValue="false"
             android:key="game_resolution"
-            android:summary=""
-            android:title="M超分" />
+            android:summary="提升游戏分辨率，优化视觉效果"
+            android:title="游戏超分"
+            android:icon="@drawable/ic_game_resolution" />
 
-        <!--TODO 添加描述-->
         <rikka.material.preference.MaterialSwitchPreference
             android:defaultValue="false"
             android:key="turbo"
-            android:summary=""
-            android:title="修改调度" />
+            android:summary="优化 CPU 线程调度，提升性能"
+            android:title="修改调度"
+            android:icon="@drawable/ic_turbo" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="关于">
-        <!--TODO 更新日志-->
+
         <Preference
             android:defaultValue="false"
             android:key="update_logs"
-            android:summary="查看App历史更新日志"
-            android:title="更新日志" />
+            android:summary="查看 App 历史更新日志"
+            android:title="更新日志"
+            android:icon="@drawable/ic_update_logs" />
 
     </PreferenceCategory>
+
 </PreferenceScreen>

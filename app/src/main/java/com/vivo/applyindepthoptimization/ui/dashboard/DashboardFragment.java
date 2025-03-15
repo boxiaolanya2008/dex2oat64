@@ -1,3 +1,6 @@
+/*
+此类已被settings代替
+
 package com.vivo.applyindepthoptimization.ui.dashboard;
 
 import android.annotation.SuppressLint;
@@ -49,12 +52,12 @@ public class DashboardFragment extends Fragment {
         // 设置Monster模式点击监听器
         binding.btnMonsterMode.setOnClickListener(v -> {
             isMonsterMode = true;
-            binding.textMonsterStatus.setText("Monster模式已激活");
+            binding.textMonsterStatus.setText("Monster+模式已激活");
             executeMonsterCommand(); // 直接执行Monster模式的ADB命令
         });
         binding.textMonsterStatus.setOnClickListener(v -> {
             isMonsterMode = true;
-            binding.textMonsterStatus.setText("Monster模式已激活");
+            binding.textMonsterStatus.setText("Monster+模式已激活");
             executeMonsterCommand(); // 直接执行Monster模式的ADB命令
         });
 
@@ -263,3 +266,5 @@ public class DashboardFragment extends Fragment {
         }
     }
 }
+
+ */
