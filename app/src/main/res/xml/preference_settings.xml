@@ -14,14 +14,9 @@
         <Preference
             android:defaultValue="false"
             android:key="choose_apps"
-            android:summary="点击选择需要编译的App"
+            android:summary="选择需要编译的App并执行dex2oat编译"
             android:title="选择App" />
 
-        <Preference
-            android:defaultValue="false"
-            android:key="choose_apps"
-            android:summary="为选中App编译dex2oat"
-            android:title="开始编译" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="其他">
@@ -32,8 +27,23 @@
             android:summary="开启或关闭Monster+模式"
             android:title="Monster+" />
 
+        <!--TODO 添加描述-->
+        <rikka.material.preference.MaterialSwitchPreference
+            android:defaultValue="false"
+            android:key="game_resolution"
+            android:summary=""
+            android:title="M超分" />
+
+        <!--TODO 添加描述-->
+        <rikka.material.preference.MaterialSwitchPreference
+            android:defaultValue="false"
+            android:key="turbo"
+            android:summary=""
+            android:title="修改调度" />
     </PreferenceCategory>
+
     <PreferenceCategory android:title="关于">
+        <!--TODO 更新日志-->
         <Preference
             android:defaultValue="false"
             android:key="update_logs"

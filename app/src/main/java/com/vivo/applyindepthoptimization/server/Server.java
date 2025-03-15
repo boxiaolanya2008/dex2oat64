@@ -119,7 +119,14 @@ public class Server extends ServerTemplate {
 
             @Override
             public void exit() {
-                finish(0);
+                runOnMainThread(() -> {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    finish(0);
+                });
             }
 
             @Override

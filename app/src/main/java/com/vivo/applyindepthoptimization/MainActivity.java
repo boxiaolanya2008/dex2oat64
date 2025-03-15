@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -17,7 +18,6 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.SystemBarStyle;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuProvider;
@@ -37,9 +37,10 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import rikka.material.app.MaterialActivity;
 import rikka.shizuku.Shizuku;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends MaterialActivity {
 
     private static final String TAG = "MainActivity";
     private static final int SHIZUKU_PERMISSION_REQUEST_CODE = 100;
@@ -57,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    public void onApplyUserThemeResource(@NonNull Resources.Theme theme, boolean isDecorView) {
+        theme.applyStyle(rikka.material.preference.R.style.ThemeOverlay_Rikka_Material3_Preference, true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initNavigation() {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard).build();
+                R.id.navigation_home, R.id.navigation_settings).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(
                 binding.toolbar, navController, appBarConfiguration);
